@@ -1,14 +1,9 @@
 package com.siberika.idea.pascal;
 
-import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
-import com.siberika.idea.pascal.lang.inspection.DestructorInheritedInspection;
-import com.siberika.idea.pascal.lang.inspection.NotImplementedInspection;
-import com.siberika.idea.pascal.lang.inspection.ResultAssignmentInspection;
-import com.siberika.idea.pascal.lang.inspection.UnusedIdentsInspection;
-import com.siberika.idea.pascal.lang.inspection.UnusedUnitsInspection;
+import com.siberika.idea.pascal.lang.inspection.*;
 
 @SuppressWarnings("unchecked")
-public class InspectionTest extends LightPlatformCodeInsightFixtureTestCase {
+public class InspectionTest extends PascalLightCodeInsightFixtureTestCase {
     @Override
     protected String getTestDataPath() {
         return "testData/annotator";

@@ -6,8 +6,8 @@ import com.intellij.openapi.components.ApplicationComponent;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.projectRoots.ProjectJdkTable;
 import com.intellij.openapi.projectRoots.Sdk;
+import com.intellij.openapi.util.io.StreamUtil;
 import com.siberika.idea.pascal.sdk.FPCSdkType;
-import org.apache.xmlbeans.impl.common.IOUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -69,7 +69,7 @@ public class PascalAppService implements ApplicationComponent {
         }
         try (InputStream data = PascalAppService.class.getResourceAsStream("/ipasdbg.pas");
              FileOutputStream os = new FileOutputStream(debugUnitFile)) {
-            IOUtil.copyCompletely(data, os);
+            StreamUtil.copy(data, os);
         } catch (IOException e) {
             LOG.info("ERROR: failed to prepare debug unit file: " + e.getMessage());
         }

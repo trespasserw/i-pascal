@@ -18,6 +18,7 @@ import com.siberika.idea.pascal.lang.psi.PascalStructType;
 import com.siberika.idea.pascal.lang.psi.impl.PasField;
 import com.siberika.idea.pascal.lang.psi.impl.PascalExpression;
 import com.siberika.idea.pascal.util.PsiUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -40,12 +41,12 @@ public class PasHighlightWithIdentsHandler extends HighlightUsagesHandlerBase<Ps
     }
 
     @Override
-    protected void selectTargets(List<PsiElement> targets, Consumer<List<PsiElement>> selectionConsumer) {
+    protected void selectTargets(@NotNull List<? extends PsiElement> targets, @NotNull Consumer<? super List<? extends PsiElement>> selectionConsumer) {
         selectionConsumer.consume(targets);
     }
 
     @Override
-    public void computeUsages(List<PsiElement> targets) {
+    public void computeUsages(@NotNull List<? extends PsiElement> targets) {
         PasWithStatement with;
         PsiElement expr = null;
         if (target.getParent() instanceof PasWithStatement) {

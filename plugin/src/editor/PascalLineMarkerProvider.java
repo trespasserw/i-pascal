@@ -51,7 +51,7 @@ public class PascalLineMarkerProvider implements LineMarkerProvider {
         myColorsManager = EditorColorsManager.getInstance();
     }
 
-    private void collectNavigationMarkers(@NotNull PsiElement element, Collection<? super LineMarkerInfo> result) {
+    private void collectNavigationMarkers(@NotNull PsiElement element, Collection<? super LineMarkerInfo<?>> result) {
         boolean impl = true;
         PsiElement target = null;
         if (element instanceof PasExportedRoutineImpl) {
@@ -111,7 +111,7 @@ public class PascalLineMarkerProvider implements LineMarkerProvider {
     }
 
     @Override
-    public void collectSlowLineMarkers(@NotNull List<PsiElement> elements, @NotNull Collection<LineMarkerInfo> result) {
+    public void collectSlowLineMarkers(@NotNull List<? extends PsiElement> elements, @NotNull Collection<? super LineMarkerInfo<?>> result) {
         for (PsiElement element : elements) {
             if ((element instanceof PascalRoutine) || (element instanceof PascalStructType) || (element instanceof PasUsesClause) || (element instanceof PasUnitModuleHead)) {
                 collectNavigationMarkers(element, result);

@@ -15,15 +15,16 @@ import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
 import com.intellij.openapi.editor.actionSystem.EditorActionManager;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.NavigatablePsiElement;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.ui.awt.RelativePoint;
+import com.intellij.util.TextWithIcon;
 import com.siberika.idea.pascal.lang.psi.PasEntityScope;
 import com.siberika.idea.pascal.lang.psi.PascalNamedElement;
 import com.siberika.idea.pascal.lang.references.ResolveUtil;
-import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
@@ -48,7 +49,7 @@ public class EditorUtil {
         if (!targets.isEmpty()) {
             PsiElementListNavigator.openTargets(event, targets.toArray(new NavigatablePsiElement[targets.size()]),
                     title, null, new MyPsiElementCellRenderer());
-        } else if (!StringUtils.isEmpty(emptyTitle)) {
+        } else if (!StringUtil.isEmpty(emptyTitle)) {
             showErrorHint(emptyTitle, new RelativePoint(event));
         }
     }
@@ -83,20 +84,9 @@ public class EditorUtil {
     }
 
     public static class MyPsiElementCellRenderer extends DefaultPsiElementCellRenderer {
-
-        @Nullable
         @Override
-        protected DefaultListCellRenderer getRightCellRenderer(final Object value) {
-            return new PsiElementModuleRenderer() {
-                @Override
-                public String getText() {
-                    if (value instanceof PsiElement) {
-                        return getRightText((PsiElement) value);
-                    } else {
-                        return super.getText();
-                    }
-                }
-            };
+        protected @Nullable TextWithIcon getItemLocation(Object value) {
+            return value instanceof PsiElement psiElement ? new TextWithIcon(getRightText(psiElement), null) : super.getItemLocation(value);
         }
 
         @Override

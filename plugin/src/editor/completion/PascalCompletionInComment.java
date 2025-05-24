@@ -13,6 +13,7 @@ import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.roots.ModuleRootManager;
+import com.intellij.openapi.roots.ProjectFileIndex;
 import com.intellij.openapi.roots.impl.DirectoryIndex;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
@@ -97,7 +98,7 @@ class PascalCompletionInComment {
 
     private static String getDesc(Project project, Define define) {
         if (define.virtualFile != null) {
-            VirtualFile root = DirectoryIndex.getInstance(project).getInfoForFile(define.virtualFile).getContentRoot();
+            VirtualFile root = ProjectFileIndex.getInstance(project).getContentRootForFile(define.virtualFile);
             String start = root != null ? root.getPath() : null;
             Document doc = FileDocumentManager.getInstance().getDocument(define.virtualFile);
             String path = define.virtualFile.getPath();

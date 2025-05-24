@@ -1,9 +1,9 @@
 package com.siberika.idea.pascal.debugger;
 
-import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
+import com.siberika.idea.pascal.PascalLightCodeInsightFixtureTestCase;
 import org.junit.Assert;
 
-public class ExpressionTranslatorTest extends LightPlatformCodeInsightFixtureTestCase {
+public class ExpressionTranslatorTest extends PascalLightCodeInsightFixtureTestCase {
 
     @Override
     protected String getTestDataPath() {

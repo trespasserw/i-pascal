@@ -8,6 +8,7 @@ import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.util.TextRange;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
@@ -31,7 +32,6 @@ import com.siberika.idea.pascal.lang.references.ResolveUtil;
 import com.siberika.idea.pascal.util.DocUtil;
 import com.siberika.idea.pascal.util.ModuleUtil;
 import com.siberika.idea.pascal.util.PsiUtil;
-import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -231,7 +231,7 @@ public class PascalImportOptimizer implements ImportOptimizer {
             uses = PsiTreeUtil.findChildOfType((module.getModuleType() == PascalModule.ModuleType.UNIT) ? PsiUtil.getModuleImplementationSection(module) : module, PasUsesClause.class);
         }
         int offs = 0;
-        String content = StringUtils.join(names, ", ");
+        String content = StringUtil.join(names, ", ");
         if (uses != null) {
             offs = uses.getTextRange().getEndOffset() - 1;
             content = ",\n" + content + ";";

@@ -15,6 +15,7 @@ import com.siberika.idea.pascal.lang.psi.PasUsesClause;
 import com.siberika.idea.pascal.lang.psi.PascalNamedElement;
 import com.siberika.idea.pascal.util.ModuleUtil;
 import com.siberika.idea.pascal.util.PsiUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
@@ -31,17 +32,17 @@ public class PasHighlightUnitIdentsHandler extends HighlightUsagesHandlerBase<Ps
     }
 
     @Override
-    public List<PsiElement> getTargets() {
+    public @NotNull List<PsiElement> getTargets() {
         return Collections.singletonList(target);
     }
 
     @Override
-    protected void selectTargets(List<PsiElement> targets, Consumer<List<PsiElement>> selectionConsumer) {
+    protected void selectTargets(@NotNull List<? extends PsiElement> targets, @NotNull Consumer<? super List<? extends PsiElement>> selectionConsumer) {
         selectionConsumer.consume(targets);
     }
 
     @Override
-    public void computeUsages(List<PsiElement> targets) {
+    public void computeUsages(@NotNull List<? extends PsiElement> targets) {
         PasModule pasModule = PsiUtil.getElementPasModule(target);
         if (null == pasModule) {
             return;

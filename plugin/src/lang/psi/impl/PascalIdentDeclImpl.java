@@ -3,6 +3,7 @@ package com.siberika.idea.pascal.lang.psi.impl;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.Pair;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.stubs.IStubElementType;
 import com.intellij.psi.util.PsiTreeUtil;
@@ -25,7 +26,6 @@ import com.siberika.idea.pascal.lang.stub.PasIdentStub;
 import com.siberika.idea.pascal.lang.stub.PasIdentStubElementType;
 import com.siberika.idea.pascal.util.PsiUtil;
 import com.siberika.idea.pascal.util.SyncUtil;
-import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -105,7 +105,7 @@ public abstract class PascalIdentDeclImpl extends PascalNamedStubElement<PasIden
         if (type == PasField.FieldType.VARIABLE) {
             return PasField.Access.READWRITE;
         } else if (type == PasField.FieldType.CONSTANT) {
-            return StringUtils.isBlank(getTypeString()) ? PasField.Access.READONLY : PasField.Access.READWRITE;
+            return StringUtil.isEmptyOrSpaces(getTypeString()) ? PasField.Access.READONLY : PasField.Access.READWRITE;
         } else if (type == PasField.FieldType.PROPERTY) {
             return getPropertyAccess();
         }
@@ -167,7 +167,7 @@ public abstract class PascalIdentDeclImpl extends PascalNamedStubElement<PasIden
             if (parent instanceof PasTypeDecl && parent.getParent() instanceof PasTypeDeclaration) {
                 PasGenericTypeIdent typeId = ((PasTypeDeclaration) parent.getParent()).getGenericTypeIdent();
                 String parentName = typeId.getNamedIdentDecl().getName();
-                if (!StringUtils.isEmpty(parentName)) {
+                if (!StringUtil.isEmpty(parentName)) {
                     return calcScopeUniqueName(scope) + "." + parentName + "." + PsiUtil.getFieldName(this);
                 }
             }

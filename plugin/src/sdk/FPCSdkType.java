@@ -19,8 +19,6 @@ import com.siberika.idea.pascal.jps.sdk.PascalCompilerFamily;
 import com.siberika.idea.pascal.jps.sdk.PascalSdkData;
 import com.siberika.idea.pascal.jps.sdk.PascalSdkUtil;
 import com.siberika.idea.pascal.jps.util.SysUtils;
-import org.apache.commons.lang.SystemUtils;
-import org.apache.commons.lang.text.StrBuilder;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -136,12 +134,12 @@ public class FPCSdkType extends BasePascalSdkType {
         super.configureOptions(sdk, data, target);
         File file = PascalSdkUtil.getPPUDumpExecutable(sdk.getHomePath() != null ? sdk.getHomePath() : "");
         data.setValue(PascalSdkData.Keys.DECOMPILER_COMMAND.getKey(), file.getAbsolutePath());
-        StrBuilder sb = new StrBuilder("-Sa -gl -O3 ");
-        if (SystemUtils.IS_OS_WINDOWS) {
+        StringBuilder sb = new StringBuilder("-Sa -gl -O3 ");
+        if (SystemInfo.isWindows) {
             sb.append("-dMSWINDOWS ");
         } else {
             sb.append("-dPOSIX ");
-            if (SystemUtils.IS_OS_MAC_OSX) {
+            if (SystemInfo.isMac) {
                 sb.append("-dMACOS ");
             } else {
                 sb.append("-dLINUX ");

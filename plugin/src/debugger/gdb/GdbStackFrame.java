@@ -3,6 +3,7 @@ package com.siberika.idea.pascal.debugger.gdb;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.Computable;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
@@ -26,7 +27,6 @@ import com.siberika.idea.pascal.lang.psi.PascalRoutine;
 import com.siberika.idea.pascal.util.DocUtil;
 import com.siberika.idea.pascal.util.PsiUtil;
 import com.siberika.idea.pascal.util.StrUtil;
-import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -108,7 +108,7 @@ public class GdbStackFrame extends XStackFrame {
                         name = String.format("%s(%s)", name, scope.getName());
                     }
                 }
-                if (StringUtils.isEmpty(name) || "??".equals(name)) {
+                if (StringUtil.isEmpty(name) || "??".equals(name)) {
                     String addr = frame.getString("addr");
                     name = String.format("?? (%s)", addr != null ? addr : "-");
                 }

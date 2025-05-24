@@ -10,7 +10,6 @@ import com.intellij.codeInsight.template.Template;
 import com.intellij.codeInsight.template.TemplateEditingListener;
 import com.intellij.codeInsight.template.TemplateManager;
 import com.intellij.codeInsight.template.impl.TemplateState;
-import com.intellij.codeInspection.SmartHashMap;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.command.WriteCommandAction;
@@ -74,11 +73,7 @@ import com.siberika.idea.pascal.util.PsiUtil;
 import com.siberika.idea.pascal.util.StrUtil;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.siberika.idea.pascal.PascalBundle.message;
 
@@ -632,7 +627,7 @@ public abstract class PascalActionDeclare extends BaseIntentionAction {
             Pair<String, Map<String, String>> arguments;
             if (propertySpecifier != null) {
                 if (ContextUtil.isPropertyGetter(propertySpecifier)) {
-                    Map<String, String> defaults = new SmartHashMap<>();
+                    Map<String, String> defaults = new HashMap<>();
                     arguments = Pair.create("", defaults);
                 } else {
                     Map<String, String> defaults = ImmutableMap.of(TPL_VAR_TYPE, returnType);
@@ -654,7 +649,7 @@ public abstract class PascalActionDeclare extends BaseIntentionAction {
         private Pair<String, Map<String, String>> calcArguments(FixActionData data) {
             PasExpr expression = PsiTreeUtil.getParentOfType(data.element, PasExpr.class);
             StringBuilder params = new StringBuilder();
-            Map<String, String> defaults = new SmartHashMap<>();
+            Map<String, String> defaults = new HashMap<>();
             if ((expression != null) && (expression.getNextSibling() instanceof PasArgumentList)) {
                 PasArgumentList args = (PasArgumentList) expression.getNextSibling();
                 int count = 0;

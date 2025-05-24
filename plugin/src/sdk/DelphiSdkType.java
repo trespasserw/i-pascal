@@ -18,7 +18,6 @@ import com.siberika.idea.pascal.jps.sdk.PascalCompilerFamily;
 import com.siberika.idea.pascal.jps.sdk.PascalSdkData;
 import com.siberika.idea.pascal.jps.sdk.PascalSdkUtil;
 import com.siberika.idea.pascal.jps.util.SysUtils;
-import org.apache.commons.lang.text.StrBuilder;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -204,11 +203,8 @@ public class DelphiSdkType extends BasePascalSdkType {
     @Override
     protected void configureOptions(@NotNull Sdk sdk, PascalSdkData data, String target) {
         super.configureOptions(sdk, data, target);
-        StrBuilder sb = new StrBuilder();
-        sb.append("-dWINDOWS ");
-        sb.append("-dMSWINDOWS ");
-        sb.append("-dWIN32 ");
-        data.setValue(PascalSdkData.Keys.COMPILER_OPTIONS.getKey(), sb.toString());
+        String sb = "-dWINDOWS -dMSWINDOWS -dWIN32 ";
+        data.setValue(PascalSdkData.Keys.COMPILER_OPTIONS.getKey(), sb);
         if (isStarter(getVersionLines(sdk.getHomePath()))) {
             data.setValue(PascalSdkData.Keys.DELPHI_IS_STARTER.getKey(), PascalSdkData.SDK_DATA_TRUE);
         }

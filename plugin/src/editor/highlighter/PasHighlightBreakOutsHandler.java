@@ -16,6 +16,7 @@ import com.siberika.idea.pascal.lang.psi.PasRaiseStatement;
 import com.siberika.idea.pascal.lang.psi.PasRepeatStatement;
 import com.siberika.idea.pascal.lang.psi.PasWhileStatement;
 import com.siberika.idea.pascal.lang.psi.PascalPsiElement;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -39,12 +40,12 @@ public class PasHighlightBreakOutsHandler extends HighlightUsagesHandlerBase<Psi
     }
 
     @Override
-    protected void selectTargets(List<PsiElement> targets, Consumer<List<PsiElement>> selectionConsumer) {
+    protected void selectTargets(@NotNull List<? extends PsiElement> targets, @NotNull Consumer<? super List<? extends PsiElement>> selectionConsumer) {
         selectionConsumer.consume(targets);
     }
 
     @Override
-    public void computeUsages(List<PsiElement> targets) {
+    public void computeUsages(@NotNull List<? extends PsiElement> targets) {
         PsiElement parent = target.getParent();
         if (!(parent instanceof PasBreakStatement) && !(parent instanceof PasContinueStatement)) {
             return;
