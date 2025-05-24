@@ -21,20 +21,12 @@ import com.siberika.idea.pascal.lang.references.ResolveContext;
 import com.siberika.idea.pascal.lang.references.resolve.Resolve;
 import com.siberika.idea.pascal.util.StrUtil;
 import com.siberika.idea.pascal.util.SyncUtil;
-import org.apache.commons.codec.DecoderException;
-import org.apache.commons.codec.binary.Hex;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -612,7 +604,7 @@ public final class VariableManager {
 
     private String parseString(String content, long length, long displayLength, int charSize, CodePage codepage) {
         try {
-            byte[] data = Hex.decodeHex(content.toCharArray());
+            byte[] data = HexFormat.of().parseHex(content);
             String str = createString(data, codepage);
             if (process.backend.options.view.showNonPrintable) {
                 StringBuilder sb = new StringBuilder(str.length() + str.length() / 4);
@@ -627,7 +619,7 @@ public final class VariableManager {
             }
             String termStr = displayLength == length ? "'" : "...";
             return String.format("'%s%s", str, termStr);
-        } catch (DecoderException e) {
+        } catch (IllegalArgumentException e) {
             return null;
         }
     }

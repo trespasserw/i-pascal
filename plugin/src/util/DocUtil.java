@@ -12,6 +12,7 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.ScrollType;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiElement;
@@ -23,7 +24,6 @@ import com.intellij.util.FileContentUtil;
 import com.intellij.util.SmartList;
 import com.siberika.idea.pascal.PascalBundle;
 import com.siberika.idea.pascal.lang.psi.PasModule;
-import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -74,13 +74,13 @@ public class DocUtil {
     // for each entry in DUP_MAP if content ends with key and document starts with value truncate content by key length
     private static String adjustContent(Document document, int offset, String content) {
         for (Map.Entry<String, String> entry : DUP_MAP.entrySet()) {
-            String trimmedContent = StringUtils.stripEnd(content, null);
+            String trimmedContent = StringUtil.trimTrailing(content);
             if (trimmedContent.endsWith(entry.getKey())) {
                 TextRange r = TextRange.from(offset, entry.getValue().length() + SPACES);
                 if (r.getEndOffset() > document.getTextLength()) {
                     r = TextRange.create(r.getStartOffset(), document.getTextLength());
                 }
-                String trimmedDoc = StringUtils.stripStart(document.getText(r), " ");
+                String trimmedDoc = StringUtil.trimLeading(document.getText(r), ' ');
                 if (trimmedDoc.startsWith(entry.getValue())) {
                     return content.substring(0, trimmedContent.length() - entry.getKey().length());
                 }

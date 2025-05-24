@@ -1,6 +1,5 @@
 package com.siberika.idea.pascal.debugger.gdb.parser;
 
-import com.intellij.codeInspection.SmartHashMap;
 import com.siberika.idea.pascal.util.StrUtil;
 
 import java.util.HashMap;
@@ -26,7 +25,7 @@ public class GdbMiResults {
 
     private void ensureData() {
         if (null == data) {
-            data = new SmartHashMap<>();
+            data = new HashMap<>();
         }
     }
 
@@ -49,6 +48,6 @@ public class GdbMiResults {
     @Override
     public String toString() {
         ensureData();
-        return "[" + new HashMap<>(data).toString() + "]";
+        return data.toString();
     }
 }

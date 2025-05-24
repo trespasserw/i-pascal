@@ -34,20 +34,20 @@ import java.util.List;
 public class PascalHeavyLineMarkerProvider implements LineMarkerProvider {
     @Nullable
     @Override
-    public LineMarkerInfo getLineMarkerInfo(@NotNull PsiElement element) {
+    public LineMarkerInfo<?> getLineMarkerInfo(@NotNull PsiElement element) {
         return null;
     }
 
     @Override
-    public void collectSlowLineMarkers(@NotNull List<PsiElement> elements, @NotNull Collection<LineMarkerInfo> result) {
+    public void collectSlowLineMarkers(@NotNull List<? extends PsiElement> elements, @NotNull Collection<? super LineMarkerInfo<?>> result) {
         ApplicationManager.getApplication().assertReadAccessAllowed();
-        List<Computable<List<LineMarkerInfo>>> tasks = new ArrayList<>();
+        List<Computable<List<LineMarkerInfo<?>>>> tasks = new ArrayList<>();
         Processor<? super PasEntityScope> consumer = (Processor<PasEntityScope>) descending -> false;
         for (PsiElement element : elements) {
             if (PsiUtil.isElementUsable(element) && element instanceof PasEntityScope) {
-                tasks.add(new Computable<List<LineMarkerInfo>>() {
+                tasks.add(new Computable<List<LineMarkerInfo<?>>>() {
                     @Override
-                    public List<LineMarkerInfo> compute() {
+                    public List<LineMarkerInfo<?>> compute() {
                         boolean noMarker = true;
                         if (element instanceof PascalStructType) {
                             noMarker = PascalDefinitionsSearch.findImplementations(((PascalNamedElement) element).getNameIdentifier(), consumer);
@@ -69,7 +69,7 @@ public class PascalHeavyLineMarkerProvider implements LineMarkerProvider {
         Object lock = new Object();
         ProgressIndicator indicator = ProgressIndicatorProvider.getGlobalProgressIndicator();
         JobLauncher.getInstance().invokeConcurrentlyUnderProgress(tasks, indicator, true, true, computable -> {
-            List<LineMarkerInfo> infos = computable.compute();
+            List<LineMarkerInfo<?>> infos = computable.compute();
             synchronized (lock) {
                 result.addAll(infos);
             }

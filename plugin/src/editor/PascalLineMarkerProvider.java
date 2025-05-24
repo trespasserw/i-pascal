@@ -51,7 +51,7 @@ public class PascalLineMarkerProvider implements LineMarkerProvider {
         myColorsManager = EditorColorsManager.getInstance();
     }
 
-    private void collectNavigationMarkers(@NotNull PsiElement element, Collection<? super LineMarkerInfo> result) {
+    private void collectNavigationMarkers(@NotNull PsiElement element, Collection<? super LineMarkerInfo<?>> result) {
         boolean impl = true;
         PsiElement target = null;
         if (element instanceof PasExportedRoutineImpl) {
@@ -82,9 +82,7 @@ public class PascalLineMarkerProvider implements LineMarkerProvider {
 
     static LineMarkerInfo<PsiElement> createLineMarkerInfo(@NotNull PsiElement element, Icon icon, @NotNull PascalMarker marker) {
         PsiElement el = getLeaf(element);
-        return new LineMarkerInfo<PsiElement>(el, el.getTextRange(),
-                icon, Pass.LINE_MARKERS,
-                marker.getTooltip(), marker.getHandler(),
+        return new LineMarkerInfo<>(el, el.getTextRange(), icon, marker.getTooltip(), marker.getHandler(),
                 GutterIconRenderer.Alignment.RIGHT);
     }
 
@@ -111,7 +109,7 @@ public class PascalLineMarkerProvider implements LineMarkerProvider {
     }
 
     @Override
-    public void collectSlowLineMarkers(@NotNull List<PsiElement> elements, @NotNull Collection<LineMarkerInfo> result) {
+    public void collectSlowLineMarkers(@NotNull List<? extends PsiElement> elements, @NotNull Collection<? super LineMarkerInfo<?>> result) {
         for (PsiElement element : elements) {
             if ((element instanceof PascalRoutine) || (element instanceof PascalStructType) || (element instanceof PasUsesClause) || (element instanceof PasUnitModuleHead)) {
                 collectNavigationMarkers(element, result);
@@ -121,8 +119,8 @@ public class PascalLineMarkerProvider implements LineMarkerProvider {
 
     private LineMarkerInfo collectHelpers(PascalStructType structType) {
         PsiElement leaf = getLeaf(structType);
-        return new LineMarkerInfo<PsiElement>(leaf, leaf.getTextRange(),
-                PascalIcons.HELPER, Pass.LINE_MARKERS, PascalMarker.HELPERS.getTooltip(), PascalMarker.HELPERS.getHandler(), GutterIconRenderer.Alignment.RIGHT) {
+        return new LineMarkerInfo<>(leaf, leaf.getTextRange(), PascalIcons.HELPER, PascalMarker.HELPERS.getTooltip(),
+                PascalMarker.HELPERS.getHandler(), GutterIconRenderer.Alignment.RIGHT) {
         };
     }
 

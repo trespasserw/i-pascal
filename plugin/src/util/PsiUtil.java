@@ -4,6 +4,7 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.progress.ProcessCanceledException;
 import com.intellij.openapi.util.Pair;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiComment;
 import com.intellij.psi.PsiElement;
@@ -40,7 +41,6 @@ import com.siberika.idea.pascal.lang.psi.impl.PascalExpression;
 import com.siberika.idea.pascal.lang.references.ResolveUtil;
 import com.siberika.idea.pascal.lang.stub.PasNamedStub;
 import com.siberika.idea.pascal.sdk.BuiltinsParser;
-import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -99,7 +99,7 @@ public class PsiUtil {
                 return true;
             }
         };
-        PsiTreeUtil.processElements(element, processor);
+        PsiTreeUtil.processElements(element, (PsiElementProcessor<? super PsiElement>)(PsiElementProcessor)processor);
         return processor.getCollection();
     }
 
@@ -622,7 +622,7 @@ public class PsiUtil {
             for (PasFormalParameter param : params.getFormalParameterList()) {
                 PasTypeDecl td = param.getTypeDecl();
                 String typeStr = td != null ? td.getText() : null;
-                typeStr = StringUtils.isNotBlank(typeStr) ? typeStr : TYPE_UNTYPED_NAME;
+                typeStr = !StringUtil.isEmptyOrSpaces(typeStr) ? typeStr : TYPE_UNTYPED_NAME;
                 for (int i = 0; i < param.getNamedIdentDeclList().size(); i++) {
                     res.append(nonFirst ? "," : "").append(typeStr);
                     nonFirst = true;
@@ -726,7 +726,7 @@ public class PsiUtil {
         if (parent instanceof PasClassQualifiedIdent) {
             PasClassQualifiedIdent name = (PasClassQualifiedIdent) parent;
             return (element == name.getSubIdentList().get(name.getSubIdentList().size() - 1))
-                 && isRoutineName((PascalNamedElement) parent) && !StringUtils.isEmpty(((PascalNamedElement) parent).getNamespace());
+                 && isRoutineName((PascalNamedElement) parent) && !StringUtil.isEmpty(((PascalNamedElement) parent).getNamespace());
         }
         return false;
     }

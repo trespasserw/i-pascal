@@ -2,9 +2,10 @@ package com.siberika.idea.pascal;
 
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
-import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
 
-public class ResolveTest extends LightPlatformCodeInsightFixtureTestCase {
+import static org.junit.Assert.assertEquals;
+
+public class ResolveTest extends PascalLightCodeInsightFixtureTestCase {
     @Override
     protected String getTestDataPath() {
         return "testData/misc";

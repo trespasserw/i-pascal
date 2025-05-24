@@ -24,7 +24,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.util.List;
 
-public abstract class PasStructDeclStubElementType<StubT extends PasStructStub, PsiT extends PascalStructType> extends ILightStubElementType<StubT, PsiT> {
+public abstract class PasStructDeclStubElementType<StubT extends PasStructStub<PsiT>, PsiT extends PascalStructType<StubT>> extends ILightStubElementType<StubT, PsiT> {
 
     private static final Logger LOG = Logger.getInstance(PasStructDeclStubElementType.class);
 

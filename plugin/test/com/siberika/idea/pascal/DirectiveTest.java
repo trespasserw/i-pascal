@@ -2,14 +2,13 @@ package com.siberika.idea.pascal;
 
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.testFramework.LightProjectDescriptor;
-import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
 import com.siberika.idea.pascal.sdk.FPCSdkType;
 import org.jetbrains.annotations.Nullable;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class DirectiveTest extends LightPlatformCodeInsightFixtureTestCase {
+public class DirectiveTest extends PascalLightCodeInsightFixtureTestCase {
     @Override
     protected String getTestDataPath() {
         return "testData/directive";

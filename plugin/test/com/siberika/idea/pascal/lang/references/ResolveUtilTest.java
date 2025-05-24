@@ -3,7 +3,7 @@ package com.siberika.idea.pascal.lang.references;
 import com.google.common.collect.ImmutableMap;
 import com.intellij.openapi.util.Pair;
 import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
+import com.siberika.idea.pascal.PascalLightCodeInsightFixtureTestCase;
 import com.siberika.idea.pascal.lang.psi.PasNamedIdent;
 import com.siberika.idea.pascal.lang.psi.PascalNamedElement;
 import com.siberika.idea.pascal.lang.psi.impl.PasField;
@@ -12,13 +12,9 @@ import org.junit.Assert;
 import java.util.Collection;
 import java.util.Map;
 
-import static com.siberika.idea.pascal.lang.psi.impl.PasField.Kind.ARRAY;
-import static com.siberika.idea.pascal.lang.psi.impl.PasField.Kind.CLASSREF;
-import static com.siberika.idea.pascal.lang.psi.impl.PasField.Kind.POINTER;
-import static com.siberika.idea.pascal.lang.psi.impl.PasField.Kind.STRUCT;
-import static com.siberika.idea.pascal.lang.psi.impl.PasField.Kind.TYPEALIAS;
+import static com.siberika.idea.pascal.lang.psi.impl.PasField.Kind.*;
 
-public class ResolveUtilTest extends LightPlatformCodeInsightFixtureTestCase {
+public class ResolveUtilTest extends PascalLightCodeInsightFixtureTestCase {
 
     @Override
     protected String getTestDataPath() {

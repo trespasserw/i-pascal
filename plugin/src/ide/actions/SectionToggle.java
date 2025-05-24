@@ -1,5 +1,6 @@
 package com.siberika.idea.pascal.ide.actions;
 
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
@@ -24,7 +25,6 @@ import com.siberika.idea.pascal.lang.psi.impl.RoutineUtil;
 import com.siberika.idea.pascal.util.Filter;
 import com.siberika.idea.pascal.util.PosUtil;
 import com.siberika.idea.pascal.util.PsiUtil;
-import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -173,7 +173,7 @@ public class SectionToggle {
         PasEntityScope scope = container.element.getContainingScope();
         if (scope != null) {
             String ns = container.element.getNamespace();
-            String name = container.element.getReducedName().substring(StringUtils.isEmpty(ns) ? 0 : ns.length() + 1);
+            String name = container.element.getReducedName().substring(StringUtil.isEmpty(ns) ? 0 : ns.length() + 1);
             PascalRoutine routine = retrieveRoutine(scope, name);
             if (routine != null) {
                 return routine;

@@ -1,8 +1,6 @@
 package com.siberika.idea.pascal;
 
-import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
-
-public class ConditionalTest extends LightPlatformCodeInsightFixtureTestCase {
+public class ConditionalTest extends PascalLightCodeInsightFixtureTestCase {
     @Override
     protected String getTestDataPath() {
         return "testData/conditional";

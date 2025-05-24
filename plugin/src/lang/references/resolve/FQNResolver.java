@@ -1,6 +1,7 @@
 package com.siberika.idea.pascal.lang.references.resolve;
 
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.SmartPsiElementPointer;
@@ -26,7 +27,6 @@ import com.siberika.idea.pascal.lang.references.ResolveUtil;
 import com.siberika.idea.pascal.lang.search.Helper;
 import com.siberika.idea.pascal.util.ModuleUtil;
 import com.siberika.idea.pascal.util.PsiUtil;
-import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -119,7 +119,7 @@ abstract class FQNResolver {
             PasEntityScope unit = unitPtr.getElement();
             if ((unit != null) && (context.includeLibrary || !PsiUtil.isFromLibrary(unit))) {
                 // Add unit scopes to sorted units list
-                if (!StringUtils.isEmpty(unit.getName())) {
+                if (!StringUtil.isEmpty(unit.getName())) {
                     sortedUnits.add(unit);
                 }
             }
@@ -192,7 +192,7 @@ abstract class FQNResolver {
             return false;
         }
         if (context.scope instanceof PascalModuleImpl) {
-            if (!StringUtils.isEmpty(context.scope.getName())) {
+            if (!StringUtil.isEmpty(context.scope.getName())) {
                 sortedUnits.add(context.scope);
             }
             if (implAffects) {

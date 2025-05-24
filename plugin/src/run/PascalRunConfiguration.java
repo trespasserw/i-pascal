@@ -20,6 +20,7 @@ import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.util.InvalidDataException;
 import com.intellij.openapi.util.WriteExternalException;
+import com.intellij.psi.search.ExecutionSearchScopes;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.siberika.idea.pascal.module.PascalModuleType;
 import org.jdom.Element;
@@ -27,12 +28,13 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Author: George Bakhtadze
  * Date: 06/01/2013
  */
-public class PascalRunConfiguration extends ModuleBasedConfiguration<RunConfigurationModule>
+public class PascalRunConfiguration extends ModuleBasedConfiguration<RunConfigurationModule, Object>
         implements PascalRunConfigurationParams, RunConfigurationWithSuppressedDefaultRunAction, RunConfigurationWithSuppressedDefaultDebugAction {
 
     private static final String ATTR_PROGRAM_FILE_NAME = "program_file_name";
@@ -144,7 +146,7 @@ public class PascalRunConfiguration extends ModuleBasedConfiguration<RunConfigur
 
     // 2016.3 compatibility
     public GlobalSearchScope getSearchScope() {
-        return SearchScopeProvider.createSearchScope(getModules());
+        return ExecutionSearchScopes.executionScope(List.of(getModules()));
     }
 
     public Sdk getSdk() {

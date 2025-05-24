@@ -45,12 +45,12 @@ public class PasHighlightExitPointsHandler extends HighlightUsagesHandlerBase<Ps
     }
 
     @Override
-    protected void selectTargets(List<PsiElement> targets, Consumer<List<PsiElement>> selectionConsumer) {
+    protected void selectTargets(@NotNull List<? extends PsiElement> targets, @NotNull Consumer<? super List<? extends PsiElement>> selectionConsumer) {
         selectionConsumer.consume(targets);
     }
 
     @Override
-    public void computeUsages(List<PsiElement> targets) {
+    public void computeUsages(@NotNull List<? extends PsiElement> targets) {
         PsiElement parent = target.getParent();
         if (!(parent instanceof PasExitStatement) && !(parent instanceof PasRaiseStatement) && !(PascalHighlightHandlerFactory.isResultReference(target))) {
             return;

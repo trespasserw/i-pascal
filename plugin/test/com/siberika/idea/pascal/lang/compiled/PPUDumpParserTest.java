@@ -3,7 +3,6 @@ package com.siberika.idea.pascal.lang.compiled;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.testFramework.LightVirtualFile;
-import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -13,6 +12,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,7 +52,9 @@ public class PPUDumpParserTest {
 
         @Override
         String retrieveXml(String key, VirtualFile file, File ppuDump) throws IOException {
-            return IOUtils.toString(new FileInputStream(files.get(key)), "UTF-8");
+            try (var stream = new FileInputStream(files.get(key))) {
+                return new String(stream.readAllBytes(), StandardCharsets.UTF_8);
+            }
         }
 
         @Override

@@ -2,17 +2,14 @@ package com.siberika.idea.pascal.editor.highlighter;
 
 import com.intellij.psi.util.PsiTreeUtil;
 import com.siberika.idea.pascal.PascalLightCodeInsightFixtureTestCase;
-import com.siberika.idea.pascal.lang.psi.PasConstDeclaration;
-import com.siberika.idea.pascal.lang.psi.PasNamedIdent;
-import com.siberika.idea.pascal.lang.psi.PasRefNamedIdent;
-import com.siberika.idea.pascal.lang.psi.PasSubIdent;
-import com.siberika.idea.pascal.lang.psi.PasVarDeclaration;
-import com.siberika.idea.pascal.lang.psi.PascalNamedElement;
-import com.siberika.idea.pascal.lang.psi.PascalPsiElement;
+import com.siberika.idea.pascal.lang.psi.*;
 import com.siberika.idea.pascal.lang.psi.impl.PascalModuleImpl;
 import com.siberika.idea.pascal.lang.references.PasReferenceUtil;
 
 import java.util.Collection;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class AccessDetectorTest extends PascalLightCodeInsightFixtureTestCase {
     @Override

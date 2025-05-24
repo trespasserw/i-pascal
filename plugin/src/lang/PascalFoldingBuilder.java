@@ -10,6 +10,7 @@ import com.intellij.openapi.editor.FoldingGroup;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.DumbService;
 import com.intellij.openapi.util.TextRange;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiComment;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.search.PsiElementProcessor;
@@ -46,7 +47,6 @@ import com.siberika.idea.pascal.lang.psi.PascalPsiElement;
 import com.siberika.idea.pascal.lang.psi.PascalQualifiedIdent;
 import com.siberika.idea.pascal.lang.psi.impl.PasRoutineImplDeclImpl;
 import com.siberika.idea.pascal.util.PsiUtil;
-import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -293,7 +293,7 @@ public class PascalFoldingBuilder extends FoldingBuilderEx implements DumbAware 
     }
 
     private String getEndSymbol(PsiComment comment) {
-        if (StringUtils.isNotEmpty(comment.getText())) {
+        if (StringUtil.isNotEmpty(comment.getText())) {
             if (comment.getText().startsWith("{")) {
                 return "}";
             } else if (comment.getText().startsWith("(*")) {
@@ -320,9 +320,9 @@ public class PascalFoldingBuilder extends FoldingBuilderEx implements DumbAware 
 
     private FoldingDescriptor createNamedFoldingDescriptor(ASTNode node, TextRange textRange, FoldingGroup group, String placeholderText, boolean collapseByDefault, Set<Object> dependencies) {
         try {
-            return new NamedFoldingDescriptor(node, textRange, group, placeholderText, collapseByDefault, dependencies);
+            return new FoldingDescriptor(node, textRange, group, placeholderText, collapseByDefault, dependencies);
         } catch (Throwable t) {
-            return new NamedFoldingDescriptor(node, textRange, group, placeholderText);
+            return new FoldingDescriptor(node, textRange, group, placeholderText);
         }
     }
 
