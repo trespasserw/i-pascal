@@ -12,7 +12,6 @@
   psiImplClassSuffix="Impl"
   psiPackage="com.siberika.idea.pascal.lang.psi"
   psiImplPackage="com.siberika.idea.pascal.lang.psi.impl"
-  psiImplUtilClass="com.siberika.idea.pascal.lang.psi.impl.PascalPsiImplUtil"
 
   elementTypeHolderClass="com.siberika.idea.pascal.lang.psi.PasTypes"
   elementTypePrefix=""
@@ -688,7 +687,7 @@ private statementPart       ::= RepeatStatement | WhileStatement | ForStatement
 private simpleStatement     ::= flowStatement | stmtSimpleOrAssign | Expression | InlineConstDeclaration
 private stmtSimpleOrAssign  ::= assignLeftPart [AssignPart]
 private assignLeftPart      ::= InlineVarDeclaration | Expression
-InlineVarDeclaration        ::= VAR customAttributes* identList [":" TypeDecl] {pin=1 methods=[getNamedIdentDeclList]}
+InlineVarDeclaration        ::= VAR customAttributes* identList [":" TypeDecl] {pin=1 mixin="com.siberika.idea.pascal.lang.psi.impl.PasInlineVarDeclarationImplMixin"}
 InlineConstDeclaration      ::= CONST customAttributes* NamedIdent [":" TypeDecl] "=" ConstExpression {pin=1}
 AssignOp                    ::= ":=" | PLUS_ASSIGN | MINUS_ASSIGN | MULT_ASSIGN | DIV_ASSIGN
 AssignPart                  ::= AssignOp (NewStatement | Expression) {pin=1 recoverWhile=rec_statement}
@@ -700,7 +699,7 @@ WhileStatement              ::= WHILE whileExpression doStatement {pin=1}
 private whileExpression     ::= Expression {recoverWhile=rec_statement_mid}
 ForStatement                ::= FOR forCycleIdent forCycleCondition doStatement {pin=1}
 private forCycleIdent       ::= ForInlineDeclaration | FullyQualifiedIdent
-ForInlineDeclaration        ::= VAR NamedIdent [":" TypeDecl] {pin=1 methods=[getCustomAttributeDeclList getNamedIdentDeclList]}
+ForInlineDeclaration        ::= VAR NamedIdent [":" TypeDecl] {pin=1 mixin="com.siberika.idea.pascal.lang.psi.impl.PasForInlineDeclarationImplMixin"}
 private forCycleCondition   ::= (forCycle | IN) Expression {recoverWhile=rec_statement_mid}
 private forCycle            ::= ":=" FromExpression (TO | DOWNTO) {pin=1}
 FromExpression              ::= Expression {recoverWhile=rec_statement_mid}
