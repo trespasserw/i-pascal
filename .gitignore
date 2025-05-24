@@ -1,4 +1,5 @@
-out
-gen
-_PascalLexer.java
-jflex.log
+/.gradle/
+/.idea/
+/.intellijPlatform/
+build/
+/plugin/gen/

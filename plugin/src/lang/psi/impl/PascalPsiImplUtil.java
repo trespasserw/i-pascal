@@ -53,19 +53,4 @@ public class PascalPsiImplUtil {
         LOG.info(String.format("ERROR: Containing file is null for class %s, name %s", element.getClass().getSimpleName(), element.getName()));
     }
 
-    @NotNull
-    public static List<PasCustomAttributeDecl> getCustomAttributeDeclList(PasForInlineDeclaration forInlineDeclaration) {
-        return Collections.emptyList();
-    }
-
-    @NotNull
-    public static List<? extends PascalNamedElement> getNamedIdentDeclList(PasForInlineDeclaration forInlineDeclaration) {
-        return Collections.singletonList(forInlineDeclaration.getNamedIdent());
-    }
-
-    @NotNull
-    public static List<? extends PascalNamedElement> getNamedIdentDeclList(PasInlineVarDeclaration inlineVarDeclaration) {
-        return inlineVarDeclaration.getNamedIdentList();
-    }
-
 }

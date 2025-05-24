@@ -12,7 +12,6 @@
   psiImplClassSuffix="Impl"
   psiPackage="com.siberika.idea.pascal.lang.psi"
   psiImplPackage="com.siberika.idea.pascal.lang.psi.impl"
-  psiImplUtilClass="com.siberika.idea.pascal.lang.psi.impl.PascalPsiImplUtil"
 
   elementTypeHolderClass="com.siberika.idea.pascal.lang.psi.PasTypes"
   elementTypePrefix=""
@@ -23,7 +22,7 @@
   consumeTokenMethod("rec_.*")="consumeTokenFast"
 
   tokens = [
-       COMMENT="COMMENT"
+        COMMENT="COMMENT"
         STRING_LITERAL="STRING_LITERAL"
 
         AND="and"
@@ -675,7 +674,7 @@ private statementPart       ::= RepeatStatement | WhileStatement | ForStatement
 private simpleStatement     ::= flowStatement | stmtSimpleOrAssign | Expression | InlineConstDeclaration
 private stmtSimpleOrAssign  ::= assignLeftPart [AssignPart]
 private assignLeftPart      ::= InlineVarDeclaration | Expression
-InlineVarDeclaration        ::= VAR customAttributes* identList [":" TypeDecl] {pin=1 methods=[getNamedIdentDeclList]}
+InlineVarDeclaration        ::= VAR customAttributes* identList [":" TypeDecl] {pin=1 mixin="com.siberika.idea.pascal.lang.psi.impl.PasInlineVarDeclarationImplMixin"}
 InlineConstDeclaration      ::= CONST customAttributes* NamedIdent [":" TypeDecl] "=" ConstExpression {pin=1}
 AssignOp                    ::= ":=" | PLUS_ASSIGN | MINUS_ASSIGN | MULT_ASSIGN | DIV_ASSIGN
 AssignPart                  ::= AssignOp (NewStatement | Expression) {pin=1 recoverWhile=rec_statement}
@@ -687,7 +686,7 @@ WhileStatement              ::= WHILE whileExpression doStatement {pin=1}
 private whileExpression     ::= Expression {recoverWhile=rec_statement_mid}
 ForStatement                ::= FOR forCycleIdent forCycleCondition doStatement {pin=1}
 private forCycleIdent       ::= ForInlineDeclaration | FullyQualifiedIdent
-ForInlineDeclaration        ::= VAR NamedIdent [":" TypeDecl] {pin=1 methods=[getCustomAttributeDeclList getNamedIdentDeclList]}
+ForInlineDeclaration        ::= VAR NamedIdent [":" TypeDecl] {pin=1 mixin="com.siberika.idea.pascal.lang.psi.impl.PasForInlineDeclarationImplMixin"}
 private forCycleCondition   ::= (forCycle | IN) Expression {recoverWhile=rec_statement_mid}
 private forCycle            ::= ":=" FromExpression (TO | DOWNTO) {pin=1}
 FromExpression              ::= Expression {recoverWhile=rec_statement_mid}
@@ -834,14 +833,15 @@ unaryOp                     ::= "+" | "-" | "@" | NOT
 private expressionOrd       ::= Expression
 Expression                  ::= Expr
 
-Expr                        ::= sumExpr | productExpr | relationalExpr | unaryExpr | referenceExpr | callGroup | primaryGroup {extends="com.siberika.idea.pascal.lang.psi.impl.PascalExpression"}
+Expr                        ::= sumExpr | productExpr | relationalExpr | unaryExpr | qualifiedRefExpr | callGroup | primaryGroup {extends="com.siberika.idea.pascal.lang.psi.impl.PascalExpression"}
 relationalExpr              ::= Expr relOp Expr
 sumExpr                     ::= Expr addOp Expr
 productExpr                 ::= Expr mulOp Expr
 unaryExpr                   ::= unaryOp Expr
 dereferenceExpr             ::= Expr '^'
-referenceExpr               ::= Expr '.' FullyQualifiedIdent [GenericPostfix]
-simpleRefExpr               ::= ((InheritedCall | SPECIALIZE)? FullyQualifiedIdent [GenericPostfix]) | InheritedCall {elementType=referenceExpr}  // let qualified and simple references have the same type
+fake referenceExpr          ::= Expr? '.' FullyQualifiedIdent [GenericPostfix]
+qualifiedRefExpr            ::= Expr '.' FullyQualifiedIdent [GenericPostfix] {elementType=referenceExpr}
+simpleRefExpr               ::= ((InheritedCall | SPECIALIZE)? FullyQualifiedIdent [GenericPostfix]) | InheritedCall {elementType=referenceExpr}
 callExpr                    ::= Expr ArgumentList
 indexExpr                   ::= Expr indexList
 ArgumentList                ::= '(' [ !')' Expr [ColonConstruct]  (',' Expr [ColonConstruct]) * ] ')' {pin(".*")=1}
